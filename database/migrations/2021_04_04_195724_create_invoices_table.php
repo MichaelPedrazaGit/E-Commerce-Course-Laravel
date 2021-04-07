@@ -33,9 +33,5 @@ class CreateInvoicesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('invoices');
-        Schema::table('invoices', function(Blueprint $table){
-            $table->dropforeign('product_id');
-            $table->dropforeign('user_id');
-        });
     }
 }
