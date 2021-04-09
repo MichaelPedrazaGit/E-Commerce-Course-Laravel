@@ -26,7 +26,7 @@ class ImageFactory extends Factory
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
             'url'        => $this->faker-> imageUrl($width = 640, $height = 480),
-            'product_id' => $this->faker->unique()->numberBetween(1, Product::count())
+            'product_id' => $this->faker->numberBetween(1, Product::count())
         ];
     }
 }

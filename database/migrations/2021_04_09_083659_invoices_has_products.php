@@ -13,7 +13,6 @@ class InvoicesHasProducts extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('invoicesHasProducts');
         Schema::create('invoicesHasProducts', function (Blueprint $table) {
             $table->charset ='utf8mb4';
             $table->id();
@@ -25,7 +24,6 @@ class InvoicesHasProducts extends Migration
             $table->foreign('invoices_id')->references('id')->on('invoices');
         });
     }
-
     /**
      * Reverse the migrations.
      *

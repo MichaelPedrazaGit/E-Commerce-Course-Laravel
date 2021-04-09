@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,15 +14,17 @@ use App\Models\User;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('pages.home');
-});
-Route::get('contact', function () {
-    return view('pages.contact');
-});
-
-Route::get('testUsers', function(){
-    $user = User::where('name', 'Talon Wiza')->first();
-    dd($user);
-});
+Route::resource('product',ProductController::class);
+// Route::get('/', function () {
+//     return view('pages.home');
+// });
+// Route::get('contact', function () {
+//     return view('pages.contact');
+// });
+// Route::get('test', function () {
+//     return view('test');
+// });
+// Route::get('testUsers', function(){
+//     $user = User::where('name', 'Talon Wiza')->first();
+//     dd($user);
+// });
