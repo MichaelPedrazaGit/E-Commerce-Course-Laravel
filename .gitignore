@@ -2,6 +2,7 @@
 /public/hot
 /public/storage
 /storage/*.key
+/resources/views/test.blade.php
 /vendor
 .env
 .env.backup
