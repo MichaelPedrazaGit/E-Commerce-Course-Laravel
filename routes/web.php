@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Models\User;
+use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\ProductController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,17 +14,15 @@ use App\Http\Controllers\ProductController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::resource('product',ProductController::class);
-// Route::get('/', function () {
-//     return view('pages.home');
-// });
-// Route::get('contact', function () {
-//     return view('pages.contact');
-// });
-// Route::get('test', function () {
-//     return view('test');
-// });
-// Route::get('testUsers', function(){
-//     $user = User::where('name', 'Talon Wiza')->first();
-//     dd($user);
-// });
+Route::resource('carrito',CarritoController::class);
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';

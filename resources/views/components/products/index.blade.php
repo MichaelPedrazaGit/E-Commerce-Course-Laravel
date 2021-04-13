@@ -1,47 +1,121 @@
 @extends('layouts.default')
 @section('content')
-<h1>Products</h1>
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
-  </svg>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Name And Image</th>
-            <th scope="col">Description</th>
-            <th scope="col">Price</th>
-            <th scope="col">Score</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($products as $product)
-        <tr>
-            @if ($product->available == 1)
-                <td> {{$product->id}}</td>
-                @if (count($product->images)>0)
-                    <td> {{$product->name}} <br> <img style="max-width:50px" src="{{$product->images[0]['url']}}"></td>
-                @else
-                    <td> {{$product->name}} <br> Product without photo</td>
-                @endif
-            <td> {{$product->description}}</td>
-            <td>${{$product->price}}</td>
-            <td>
-                @php
-                $maxScore =  $product->score;
-                while ($maxScore >0) {
-                echo '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>         
-                </svg>';
-                $maxScore -=1;   
-                }
-                @endphp
+<div class="container">
+    <!-- CATEGORIES SECTION-->
+    {{-- <section class="pt-5">
+      <header class="text-center">
+        <p class="small text-muted small text-uppercase mb-1">Carefully created collections</p>
+        <h2 class="h5 text-uppercase mb-4">Browse our categories</h2>
+      </header>
+      <div class="row">
+        <div class="col-md-4 mb-4 mb-md-0"><a class="category-item" href="shop.html"><img class="img-fluid" src="img/cat-img-1.jpg" alt=""><strong class="category-item-title">Clothes</strong></a></div>
+        <div class="col-md-4 mb-4 mb-md-0"><a class="category-item mb-4" href="shop.html"><img class="img-fluid" src="img/cat-img-2.jpg" alt=""><strong class="category-item-title">Shoes</strong></a><a class="category-item" href="shop.html"><img class="img-fluid" src="img/cat-img-3.jpg" alt=""><strong class="category-item-title">Watches</strong></a></div>
+        <div class="col-md-4"><a class="category-item" href="shop.html"><img class="img-fluid" src="img/cat-img-4.jpg" alt=""><strong class="category-item-title">Electronics</strong></a></div>
+      </div>
+    </section> --}}
+    <!-- TRENDING PRODUCTS-->
+    <section class="py-5">
+      <header>
+        <p class="small text-muted small text-uppercase mb-1">Made the hard way</p>
+        <h2 class="h5 text-uppercase mb-4">Top trending products</h2>
+      </header>
+      <div class="row">
+        <!-- PRODUCT-->
 
-            </td>
-            @endif
-        </tr>
+        @foreach ($products as $product )
+        <div class="col-xl-3 col-lg-4 col-sm-6">
+            <div class="product text-center">
+              <div class="position-relative mb-3">
+                <div class="badge text-white badge-"></div><a class="d-block" href="{{ route('product.show', ['product'=> $product->id ] )  }}"><img class="img-fluid w-100" src="
+                    @if (isset($product->image[0]))
+                        {{$product->image[0]->url}}
+                    @else
+                       https://via.placeholder.com/300
+                    @endif
+                    
+                    " alt="..."></a>
+                <div class="product-overlay">
+                  <ul class="mb-0 list-inline">
+                    <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-outline-dark" href="#"><i class="far fa-heart"></i></a></li>
+                    <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" href="{{route('carrito.create')}}">Add to cart</a></li>
+                    <li class="list-inline-item mr-0"><a class="btn btn-sm btn-outline-dark" href="#productView" data-toggle="modal"><i class="fas fa-expand"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+              <h6> <a class="reset-anchor" href="detail.html">{{$product->name}}</a></h6>
+              <p class="small text-muted">${{$product->price}}</p>
+            </div>
+          </div>
         @endforeach
-    </tbody>
-</table>
-
+       
+      </div>
+    </section>
+    <!-- SERVICES sacar a otro include-->
+    <section class="py-5 bg-light">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-lg-4 mb-3 mb-lg-0">
+            <div class="d-inline-block">
+              <div class="media align-items-end">
+                <svg class="svg-icon svg-icon-big svg-icon-light">
+                  <use xlink:href="#delivery-time-1"> </use>
+                </svg>
+                <div class="media-body text-left ml-3">
+                  <h6 class="text-uppercase mb-1">Free shipping</h6>
+                  <p class="text-small mb-0 text-muted">Free shipping worlwide</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3 mb-lg-0">
+            <div class="d-inline-block">
+              <div class="media align-items-end">
+                <svg class="svg-icon svg-icon-big svg-icon-light">
+                  <use xlink:href="#helpline-24h-1"> </use>
+                </svg>
+                <div class="media-body text-left ml-3">
+                  <h6 class="text-uppercase mb-1">24 x 7 service</h6>
+                  <p class="text-small mb-0 text-muted">Free shipping worlwide</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="d-inline-block">
+              <div class="media align-items-end">
+                <svg class="svg-icon svg-icon-big svg-icon-light">
+                  <use xlink:href="#label-tag-1"> </use>
+                </svg>
+                <div class="media-body text-left ml-3">
+                  <h6 class="text-uppercase mb-1">Festival offer</h6>
+                  <p class="text-small mb-0 text-muted">Free shipping worlwide</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- NEWSLETTER sacar a otro include-->
+    <section class="py-5">
+      <div class="container p-0">
+        <div class="row">
+          <div class="col-lg-6 mb-3 mb-lg-0">
+            <h5 class="text-uppercase">Let's be friends!</h5>
+            <p class="text-small text-muted mb-0">Nisi nisi tempor consequat laboris nisi.</p>
+          </div>
+          <div class="col-lg-6">
+            <form action="#">
+              <div class="input-group flex-column flex-sm-row mb-3">
+                <input class="form-control form-control-lg py-3" type="email" placeholder="Enter your email address" aria-describedby="button-addon2">
+                <div class="input-group-append">
+                  <button class="btn btn-dark btn-block" id="button-addon2" type="submit">Subscribe</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 @endsection
