@@ -20,7 +20,9 @@ class ProductController extends Controller
         // }
         // $user = Auth::user();
         
-        
+        //dd(Product::where('id','7'));
+            //dd(Product::all());
+      //  dd(session()->all());
         return view('components/products.index', ['products' => Product::all()]);
     }
 
@@ -53,7 +55,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+       return view('components/products.show',compact('product'));
     }
 
     /**

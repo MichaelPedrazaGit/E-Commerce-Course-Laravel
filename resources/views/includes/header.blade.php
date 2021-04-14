@@ -4,7 +4,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <!-- Link--><a class="nav-link active" href="index.html">Home</a>
+            <!-- Link--><a class="nav-link active" href="{{route('product.index')}}">Home</a>
           </li>
           <li class="nav-item">
             <!-- Link--><a class="nav-link" href="shop.html">Shop</a>
@@ -17,7 +17,19 @@
           </li>
         </ul>
         <ul class="navbar-nav ml-auto">               
-          <li class="nav-item"><a class="nav-link" href="cart.html"> <i class="fas fa-dolly-flatbed mr-1 text-gray"></i>Cart<small class="text-gray">(2)</small></a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{route('carrito.index')}}">
+             <i class="fas fa-dolly-flatbed mr-1 text-gray"></i>
+             Cart
+             <small class="text-gray">( 
+              @if (session()->has('carrito.productos'))
+                  {{count(session()->get('carrito.productos'))}}
+              @else 
+                0
+              @endif 
+              )</small>
+            </a>
+          </li>
           <li class="nav-item"><a class="nav-link" href="#"> <i class="far fa-heart mr-1"></i><small class="text-gray"> (0)</small></a></li>
           <li class="nav-item"><a class="nav-link" href="#"> <i class="fas fa-user-alt mr-1 text-gray"></i>Login</a></li>
         </ul>

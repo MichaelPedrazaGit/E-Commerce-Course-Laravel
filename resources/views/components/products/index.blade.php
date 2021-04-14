@@ -27,8 +27,8 @@
             <div class="product text-center">
               <div class="position-relative mb-3">
                 <div class="badge text-white badge-"></div><a class="d-block" href="{{ route('product.show', ['product'=> $product->id ] )  }}"><img class="img-fluid w-100" src="
-                    @if (isset($product->image[0]))
-                        {{$product->image[0]->url}}
+                    @if ($product->images != null && count($product->images) > 0 )
+                        {{$product->images[0]->url}}
                     @else
                        https://via.placeholder.com/300
                     @endif
