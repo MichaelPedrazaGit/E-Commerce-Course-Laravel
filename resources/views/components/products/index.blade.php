@@ -30,14 +30,14 @@
                     @if ($product->images != null && count($product->images) > 0 )
                         {{$product->images[0]->url}}
                     @else
-                       https://via.placeholder.com/300
+                         https://via.placeholder.com/300
                     @endif
                     
                     " alt="..."></a>
                 <div class="product-overlay">
                   <ul class="mb-0 list-inline">
                     <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-outline-dark" href="#"><i class="far fa-heart"></i></a></li>
-                    <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" href="{{route('carrito.create')}}">Add to cart</a></li>
+                    <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" href="{{route('product.show', ['product'=> $product->id ])}}">Add to cart</a></li>
                     <li class="list-inline-item mr-0"><a class="btn btn-sm btn-outline-dark" href="#productView" data-toggle="modal"><i class="fas fa-expand"></i></a></li>
                   </ul>
                 </div>

@@ -6,6 +6,22 @@
 </head>
 
 <body>
+    @if (session()->has('status') == true)
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+         
+          <strong class="mr-auto">Atencion</strong>
+          <small>now</small>
+          <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="toast-body">
+        {{ session()->get('status')}}
+        </div>
+      </div> 
+    @endif
+
     <div class="page-holder">
     <header class="header bg-white">
         @include('includes.header')
@@ -46,7 +62,8 @@
        // while using file:// protocol
        // pls don't forget to change to your domain :)
        injectSvgSprite('https://bootstraptemple.com/files/icons/orion-svg-sprite.svg'); 
-       
+       $('.toast').toast({delay: 200,autohide: false})
+       $('.toast').toast('show')
      </script>
      <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">

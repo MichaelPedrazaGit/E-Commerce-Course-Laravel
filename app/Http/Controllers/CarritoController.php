@@ -13,20 +13,32 @@ class CarritoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
 
-        if (session()->has('carrito') ==false){
+        if (session()->has('carrito') == false) {
             // agregar un flash para avisar q no hay productos en el carrito
-           return redirect('product.index');
-        }else {
+            return redirect('product.index');
+        } else {
 
             $productos = session()->get('carrito.productos');
-            return view('components/cart.index',compact('productos'));
+            return view('components/cart.index', compact('productos'));
         }
-     
     }
 
+    public function indiceProductoEnCarrito($productosActuales, $productSelected)
+    {
+        $encontrado = -1;
+        foreach ($productosActuales as $index => $producto) {
+            if ($producto['producto']->id ==  $productSelected->id) {
+                $encontrado = $index;
+                break;
+            }
+        }
+
+        return $encontrado;
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -36,28 +48,27 @@ class CarritoController extends Controller
     public function store(Request $request)
     {
         $productSelected = Product::find($request->productId);
-        $amount = $request->amount; 
-        if ($request->session()->has('carrito') ==false){
-            $request->session()->put('carrito',['productos'=>[]]);
+        $amount = $request->amount;
+        if ($request->session()->has('carrito') == false) {
+            $request->session()->put('carrito', ['productos' => []]);
         }
 
         //verificacion si existe producto en el carrito
 
         $productosActuales = $request->session()->get('carrito.productos');
-       
-        if (count($productosActuales)>0) {
-            foreach($productosActuales as $index => $producto) {
-                if($producto['producto']->id ==  $productSelected->id) {
-                    $productosActuales[$index]['cantidad'] += $amount;
-                    $request->session()->put('carrito.productos',$productosActuales);
-                }else {
-                    $request->session()->push('carrito.productos',['producto'=>$productSelected,'cantidad'=>$amount]);
-                }
-            }    
-        }else {
-            $request->session()->push('carrito.productos',['producto'=>$productSelected,'cantidad'=>$amount]);
+
+        $productoEncontrado = $this->indiceProductoEnCarrito($productosActuales, $productSelected);
+
+        if ($productoEncontrado != -1) {
+            $productosActuales[$productoEncontrado]['cantidad'] += $amount;
+            $request->session()->put('carrito.productos', $productosActuales);
+            $request->session()->flash('status',"se actualizo carrito");
+            //unset
+        } else {
+            $request->session()->push('carrito.productos', ['producto' => $productSelected, 'cantidad' => $amount]);
+            $request->session()->flash('status',"se agrego producto al carrito");
         }
-        
+
         return redirect()->route('product.index');
     }
 
@@ -101,8 +112,8 @@ class CarritoController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Request $request)
     {
-        //
+        
     }
 }

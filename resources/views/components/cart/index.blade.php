@@ -59,7 +59,16 @@
                     <td class="align-middle border-0">
                       <p class="mb-0 small">${{$producto['cantidad'] * $producto['producto']->price}}</p>
                     </td>
-                    <td class="align-middle border-0"><a class="reset-anchor" href="#"><i class="fas fa-trash-alt small text-muted"></i></a></td>
+                    <td class="align-middle border-0">
+                      <form method="POST" action="{{route('carrito.destroy', ['carrito'=>$producto['producto']->id])}}">
+                          @csrf
+                          {{method_field('DELETE')}}
+                          <input name="productId" value="{{$producto['producto']->id}}" type="hidden">
+                            <a class="reset-anchor"><i class="fas fa-trash-alt small text-muted"></i></a> 
+                           <input type="submit" value="Eliminar">
+                    </form>
+                    
+                    </td>
                   </tr>
                   @endforeach
             
